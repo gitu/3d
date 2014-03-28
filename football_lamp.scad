@@ -50,30 +50,28 @@ module outerHull(outer,inner) {
 	difference() {
   	 	difference() {soccerBall(outer); soccerBall(inner);}
 
-		translate([0,0,35]) octagon(55,20);
-		//translate([0,0,50]) cube(size = [50,50,50], center = true);
+		translate([0,0,-35]) octagon(55,20);
 	}
 }
 
 module lowerHull() {
 	difference() {
 		difference() {
-			translate([0,0,30]) octagon(55,10);
-			translate([0,0,30]) octagon(53,8);
+			translate([0,0,-30]) octagon(55,10);
+			translate([0,0,-30]) octagon(53,8);
 		}
-		translate([0,0,28]) octagon(50,10);
+		translate([0,0,-28]) octagon(50,10);
 	}
 }
 
 module innerBody() {
-
  union() {
 		difference() {
 			difference() {soccerBall(3); soccerBall(2.9);}
-			translate([0,0,10]) {cylinder(h = 20, r1 = 5, r2 = 5);}
+			translate([0,0,-35]) {cylinder(h = 25, r1 = 5, r2 = 5);}
 		}
 		difference() {
-			translate([0,0,10]) {
+			translate([0,0,-35]) {
 				difference() {
 					cylinder(h = 25, r1 = 6, r2 = 6); 
 					cylinder(h = 25, r1 = 5, r2 = 5);
@@ -82,32 +80,23 @@ module innerBody() {
 			soccerBall(2.9);
 		}
 		lowerHull();
-/*
-		difference() {
-			translate([0,0,20]) {
-				difference() {
-					translate([-25,-25,-10]) cube(size = [50,50,20]);
-					translate([0,0,-2]) cube(size = [48,48,22], center = true);
-				}
-			}
-			outerHull(8,0);
-		}  */
    }
 }
 
-	outerHull(8,7.90);
-	innerBody();
+//translate([0,0,35]) outerHull(8,7.90);
+//translate([0,0,35]) innerBody();
 
-/*
-difference() {
+
+translate([0,0,35])difference() {
 	outerHull(8,7.9);
 	translate([25,25,0]) cube(size = [50,50,100], center = true);
 }
 
-difference() {
+
+translate([0,0,35])difference() {
 	innerBody();
 	translate([25,25,0]) cube(size = [50,50,100], center = true);
-}*/
+}
 
 
 
