@@ -13,12 +13,8 @@ Todo: add pins or dowels for reversible construction
 */
 
 
-// #################################### MAIN PARAMETERS
-s = 30; // basic edgelenth!
-t = 2; // maximal thickness of hull 
-// ###################################
 
-
+module tio(s,t) {
 
 
 // Math:
@@ -74,17 +70,6 @@ module five()
      cube([2*s,2*s,2*t],center=true);
   }
 }
-// ###################################################################### CHOOSE!
-
-
-translate([100,0,0]) cube([100,10,10]);// size estimation cube
-
-whole_demo(0);
-//hexagon_printplate();
-//pentagon_printplate();
-part_demo();
-
-// ######################################################################
 
 module part_demo()
 {
@@ -178,3 +163,91 @@ module hexagonhalve(e)
   translate([0,0,-hhex-e]) six();
 }
 
+whole_demo(0);
+
+}
+
+
+// size is the XY plane size, height in Z
+module hexagon(size, height) {
+  boxWidth = size/1.75;
+  for (r = [-60, 0, 60]) rotate([0,0,r]) cube([boxWidth, size, height], true);
+}
+module octagon(size, height) {
+  intersection() {
+    cube([size, size, height], true);
+    rotate([0,0,45]) cube([size, size, height], true);
+  }
+}
+
+module cables() {
+ translate([0,50,-52]) rotate ([90,0,0]) cylinder (h = 30, r=3, center = true, $fn=100);
+}
+module cables2() {
+	union() {
+ 		translate([0,50,-52]) rotate ([90,0,0]) cylinder (h = 30, r=4, center = true, $fn=100);
+	   translate([-4,35,-62])  cube ([8,30,10]);
+	}
+}
+
+// #################################### MAIN PARAMETERS
+//s = 30; // basic edgelenth!
+//t = 2; // maximal thickness of hull 
+// ###################################
+module inner() {
+	union() {
+		// ball
+		difference() {
+			tio(15,1);			
+			translate([0,0,-45])octagon(28,25);
+		}
+		// lower hull
+		difference() {
+			translate([0,0,-50])octagon(96,15);
+			translate([0,0,-49])octagon(94,17);
+			# cables();
+		}
+		// floor
+		translate([0,0,-57])octagon(100,2);
+		// shaft
+		difference() {
+			translate([0,0,-45])octagon(30,25);
+			translate([0,0,-45])octagon(28,27);
+		}
+	}
+}
+
+module outer() {
+	union() {
+		difference() {
+			tio(30,1);
+			translate([0,0,-50])octagon(100,50);
+		}	
+	   color("black")
+		difference() {
+			translate([0,0,-50])octagon(100,15);
+			translate([0,0,-50])octagon(98,32);
+			# cables2();
+		}
+	}	
+}
+//
+module demo() {
+	difference() {
+		union() {
+			outer();
+			inner();
+		}
+		translate([50,50,0]) cube(size = [100,100,300], center = true);
+	}
+}
+
+demo()
+//inner();
+//outer();
+
+% translate([100,0,0]) cube([100,10,10]);// size estimation cube
+
+//hexagon_printplate();
+//pentagon_printplate();
+//part_demo();
