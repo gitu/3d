@@ -5,16 +5,11 @@ license: cc by
 
 Truncated Icosahedron (de: Ikosaederstumpf)
 
-Print: 20 Hexagons & 12 Pentagons
-then glue the parts together
-
-Todo: add pins or dowels for reversible construction
-( add holes for pepper & salt :) )
 */
 
 
 
-module tio(s,t) {
+module tio(s,t,hb,tb) {
 
 
 // Math:
@@ -55,19 +50,36 @@ pp = 2*atan(rpent/hpent) + 2*atan((s/2)/(hhex/cos(hh/2))); // nice!
 module six()
 {
   color("white")
-  intersection()
-  {
-     cylinder(r1=rhex,r2=0,h=hhex,$fn=6);
-     cube([2*s,2*s,2*t],center=true);
-  }
+  difference() {
+
+  	intersection()
+  	{
+  	   cylinder(r1=rhex,r2=0,h=hhex,$fn=6);
+  	   cube([2*s,2*s,2*t+hb],center=true);
+  	}
+   color("green")
+   translate([0,0,hb/4]) intersection()
+ 	{
+  	   cylinder(r1=rhex-tb,r2=0,h=hhex,$fn=6);
+  	   cube([2*s,2*s,2*(t+hb)],center=true);
+	}
+ }
 }
 module five()
 {
   color([gray,gray,gray]) 
-  intersection()
-  {
-     cylinder(r1=rpent,r2=0,h=hpent,$fn=5);
-     cube([2*s,2*s,2*t],center=true);
+  difference() {
+  	intersection()
+  	{
+  	   cylinder(r1=rpent,r2=0,h=hpent,$fn=5);
+  	   cube([2*s,2*s,2*t+hb],center=true);
+  	}
+   color("green")
+   translate([0,0,hb/4]) intersection()
+ 	{
+  	   cylinder(r1=rpent-tb,r2=0,h=hpent,$fn=5);
+  	   cube([2*s,2*s,2*(t+hb)],center=true);
+	}
   }
 }
 
@@ -164,7 +176,7 @@ module hexagonhalve(e)
 }
 
 whole_demo(0);
-
+//five();
 }
 
 
@@ -198,21 +210,21 @@ module inner() {
 	union() {
 		// ball
 		difference() {
-			tio(15,1);			
+			tio(15,5,8,0);			
 			translate([0,0,-45])octagon(28,25);
 		}
 		// lower hull
 		difference() {
 			translate([0,0,-50])octagon(96,15);
-			translate([0,0,-49])octagon(94,17);
+			translate([0,0,-49])octagon(92,17);
 			# cables();
 		}
 		// floor
-		translate([0,0,-57])octagon(100,2);
+		translate([0,0,-58])octagon(100,4);
 		// shaft
 		difference() {
 			translate([0,0,-45])octagon(30,25);
-			translate([0,0,-45])octagon(28,27);
+			translate([0,0,-45])octagon(25,27);
 		}
 	}
 }
@@ -220,7 +232,7 @@ module inner() {
 module outer() {
 	union() {
 		difference() {
-			tio(30,1);
+			tio(30,1.5,6,3);
 			translate([0,0,-50])octagon(100,50);
 		}	
 	   color("black")
