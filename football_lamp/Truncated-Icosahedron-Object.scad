@@ -210,13 +210,13 @@ module inner() {
 	union() {
 		// ball
 		difference() {
-			tio(15,5,8,0);			
+			tio(15,2.5,2,101);			
 			translate([0,0,-45])octagon(28,25);
 		}
 		// lower hull
 		difference() {
-			translate([0,0,-50])octagon(96,15);
-			translate([0,0,-49])octagon(92,17);
+			translate([0,0,-50])octagon(94,15);
+			translate([0,0,-49])octagon(90,17);
 			# cables();
 		}
 		// floor
@@ -232,13 +232,13 @@ module inner() {
 module outer() {
 	union() {
 		difference() {
-			tio(30,1.5,6,3);
+			tio(30,1.5,6,2.5);
 			translate([0,0,-50])octagon(100,50);
 		}	
 	   color("black")
 		difference() {
 			translate([0,0,-50])octagon(100,15);
-			translate([0,0,-50])octagon(98,32);
+			translate([0,0,-50])octagon(96,32);
 			# cables2();
 		}
 	}	
